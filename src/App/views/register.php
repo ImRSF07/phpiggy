@@ -2,6 +2,8 @@
 
 <section class="max-w-2xl mx-auto mt-12 p-4 bg-white shadow-md border border-gray-200 rounded">
     <form method="POST" class="grid grid-cols-1 gap-6">
+        <?php include $this->resolve("partials/_csrf.php"); ?>
+
         <!-- Email -->
         <label class="block">
             <span class="text-gray-700">Email address</span>
@@ -31,10 +33,11 @@
             <span class="text-gray-700">Country</span>
             <select name="country"
                 class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <?php $country = isset($oldFormData['country']) ? $oldFormData['country'] : ''; ?>
                 <option value="USA">USA</option>
-                <option value="Canada" <?php echo $oldFormData['country'] === 'Canada' ? 'selected' : '' ?>>Canada
+                <option value="Canada" <?php echo $country === 'Canada' ? 'selected' : '' ?>>Canada
                 </option>
-                <option value="Mexico" <?php echo $oldFormData['country'] === 'Mexico' ? 'selected' : '' ?>>Mexico
+                <option value="Mexico" <?php echo $country === 'Mexico' ? 'selected' : '' ?>>Mexico
                 </option>
                 <option value="Invalid">Invalid Country</option>
             </select>
@@ -85,7 +88,8 @@
             <div class="mt-2">
                 <div>
                     <label class="inline-flex items-center">
-                        <input <?php echo $oldFormData['tos'] ? 'checked' : ''; ?> name="tos"
+                        <?php $tos = isset($oldFormData['tos']) ? $oldFormData['tos'] : ''; ?>
+                        <input <?php echo $tos; ?> name="tos"
                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50"
                             type="checkbox" />
                         <span class="ml-2">I accept the terms of service.</span>
