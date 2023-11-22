@@ -42,6 +42,18 @@ class TransactionService
             $params
         )->findAll();
 
+        $transactions = array_map(function (array $transaction) {
+            $transaction['receipts'] = $this->db->query(
+                "SELECT *
+                FROM receipts
+                WHERE transaction_id = :transaction_id",
+                [
+                    'transaction_id' => $transaction['id']
+                ]
+            )->findAll();
+            return $transaction;
+        }, $transactions);
+
         $transactionCount = $this->db->query(
             "SELECT COUNT(*) as formatted_date 
             FROM transactions 
